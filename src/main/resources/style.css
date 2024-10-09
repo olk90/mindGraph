@@ -1,0 +1,16 @@
+graph {
+    fill-color: white;
+}
+
+node {
+    shape: freeplane;
+    fill-color: white;
+    stroke-mode: plain;
+    size-mode: fit;
+}
+
+edge {
+    shape: freeplane;
+    size: 2px;
+    fill-color: #444;
+}

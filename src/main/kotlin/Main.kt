@@ -9,7 +9,7 @@ fun main() {
     System.setProperty("org.graphstream.ui", "swing")
 
     // Create a new graph
-    val graph: Graph = renderMermaidMindMap("")
+    val graph: Graph = renderMermaidMindMap()
 
     // Create a viewer to display the graph
     val viewer = graph.display()
@@ -19,9 +19,7 @@ fun main() {
     viewer.enableAutoLayout()
 }
 
-fun renderMermaidMindMap(filePath: String): Graph {
-    // Read the Mermaid mind map file
-//    val content = File(filePath).readText()
+fun renderMermaidMindMap(): Graph {
     val content = """mindmap
 Nutzen und Ziele
 	Reduktion von Komplexität
@@ -60,7 +58,7 @@ Nutzen und Ziele
         node.setAttribute("ui.label", nodeId)
         val predecessor = lines[offsetIdx - 1]
         val predecessorLevel = getLevel(predecessor)
-        val predecessorNode =  graph.getNode(predecessor.trim())
+        val predecessorNode = graph.getNode(predecessor.trim())
         val level = getLevel(str)
 
         when {
@@ -68,11 +66,13 @@ Nutzen und Ziele
                 appendNode(nodeMap, predecessorNode, node)
                 graph.addEdge("${predecessorNode.id}-$nodeId", predecessorNode, node)
             }
+
             level == predecessorLevel -> {
                 val parentNode = findKeyContainingNode(nodeMap, predecessorNode)
                 appendNode(nodeMap, parentNode, node)
                 graph.addEdge("${parentNode.id}-${node.id}", parentNode, node)
             }
+
             else -> {
                 val siblingNode = findKeyContainingNode(nodeMap, predecessorNode)
                 val parentNode = findKeyContainingNode(nodeMap, siblingNode)
@@ -83,12 +83,9 @@ Nutzen und Ziele
     }
 
     // Set attributes for visualization
-    graph.setAttribute(
-        "ui.stylesheet", """
-        node { shape: freeplane; fill-color: white; stroke-mode: plain; size-mode: fit; }
-        edge { shape: freeplane; size: 2px; fill-color: #444; }
-        """
-    )
+    val css =
+        ::renderMermaidMindMap.javaClass.classLoader.getResource("style.css")!!.toExternalForm()
+    graph.setAttribute("ui.stylesheet", css)
     return graph
 }
 
