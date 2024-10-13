@@ -1,12 +1,10 @@
-package de.olk90.mindgraph.view
+package de.olk90
 
 import de.olk90.logic.renderMermaidMindMap
 import org.graphstream.graph.Graph
-import org.graphstream.ui.view.Viewer
 import org.graphstream.ui.view.Viewer.CloseFramePolicy
 
-
-fun displayGraph(): Viewer {
+fun main() {
     System.setProperty("org.graphstream.ui", "swing")
 
     // Create a new graph
@@ -18,6 +16,5 @@ fun displayGraph(): Viewer {
 
     // Show the viewer window
     viewer.enableAutoLayout()
-
-    return viewer
 }
+

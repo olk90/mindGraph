@@ -1,5 +1,8 @@
 plugins {
     kotlin("jvm") version "2.0.20"
+
+    kotlin("plugin.compose")
+    id("org.jetbrains.compose")
 }
 
 group = "de.olk90"
@@ -23,6 +26,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.graphstream/gs-ui-swing
     implementation("org.graphstream:gs-ui-swing:2.0")
+
+    implementation(compose.desktop.currentOs)
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 }
