@@ -15,8 +15,8 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 dependencies {
@@ -30,11 +30,13 @@ dependencies {
     implementation(compose.desktop.currentOs)
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+
+    implementation("androidx.compose.material:material-icons-extended:1.7.3")
 }
 
 tasks.test {
     useJUnitPlatform()
 }
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(21)
 }

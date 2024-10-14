@@ -9,8 +9,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.FileOpen
+import androidx.compose.material.icons.filled.Folder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -89,12 +89,12 @@ fun FileCardBody(file: File, parentDirectory: MutableState<File>) {
     ) {
         if (isDir) {
             Icon(
-                Icons.Filled.List,
+                Icons.Default.Folder,
                 contentDescription = "Directory"
             )
         } else {
             Icon(
-                Icons.Filled.Lock,
+                Icons.Default.FileOpen,
                 contentDescription = "Single files"
             )
         }
