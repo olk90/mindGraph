@@ -1,4 +1,4 @@
-package de.olk90.logic
+package de.olk90.mindgraph.logic
 
 import org.graphstream.graph.Graph
 import org.graphstream.graph.Node
@@ -19,6 +19,8 @@ Nutzen und Ziele
 	Vermittlung von Verständnis
 	Spezifikation architekturrelevanter Richtlinien
 """
+
+    System.setProperty("org.graphstream.ui", "swing")
 
     // Parse the Mermaid mind map content
     val lines = content.lines().filter { it.isNotEmpty() }

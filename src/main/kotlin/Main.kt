@@ -1,20 +1,13 @@
-package de.olk90
+package de.olk90.mindgraph
 
-import de.olk90.logic.renderMermaidMindMap
-import org.graphstream.graph.Graph
-import org.graphstream.ui.view.Viewer.CloseFramePolicy
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
+import de.olk90.de.olk90.mindgraph.view.MainUI
 
-fun main() {
-    System.setProperty("org.graphstream.ui", "swing")
 
-    // Create a new graph
-    val graph: Graph = renderMermaidMindMap()
-
-    // Create a viewer to display the graph
-    val viewer = graph.display()
-    viewer.closeFramePolicy = CloseFramePolicy.EXIT
-
-    // Show the viewer window
-    viewer.enableAutoLayout()
+fun main() = application {
+    Window(onCloseRequest = ::exitApplication) {
+        MainUI()
+    }
 }
 
