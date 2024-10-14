@@ -4,22 +4,7 @@ import org.graphstream.graph.Graph
 import org.graphstream.graph.Node
 import org.graphstream.graph.implementations.SingleGraph
 
-fun renderMermaidMindMap(): Graph {
-    val content = """mindmap
-Nutzen und Ziele
-	Reduktion von Komplexität
-	Erreichtung der Qualitätsanforderungen
-		Zuverlässigkeit
-		Wartbarkeit
-		Änderbarkeit
-		Sicherheit
-		Energieeffizienz
-	Sicherstellung der Erfüllbarkeit funktionaler Anforderungen
-	Unterstützung vom Entwurf bis zur Weiterentwicklung
-	Vermittlung von Verständnis
-	Spezifikation architekturrelevanter Richtlinien
-"""
-
+fun renderMermaidMindMap(content: String): Graph {
     System.setProperty("org.graphstream.ui", "swing")
 
     // Parse the Mermaid mind map content
@@ -31,40 +16,42 @@ Nutzen und Ziele
     // Create a new GraphStream graph
     val graph: Graph = SingleGraph("MindMap")
 
-    val rootId = lines[1].trim()
-    val root = graph.addNode(rootId)
-    root.setAttribute("ui.label", rootId)
+    if (lines.size > 1) {
+        val rootId = lines[1].trim()
+        val root = graph.addNode(rootId)
+        root.setAttribute("ui.label", rootId)
 
-    val nodeMap = mutableMapOf<Node, MutableList<Node>>()
+        val nodeMap = mutableMapOf<Node, MutableList<Node>>()
 
-    lines.drop(2).forEachIndexed { idx, str ->
+        lines.drop(2).forEachIndexed { idx, str ->
 
-        val offsetIdx = idx + 2
-        val nodeId = str.trim()
-        val node = graph.addNode(nodeId)
-        node.setAttribute("ui.label", nodeId)
-        val predecessor = lines[offsetIdx - 1]
-        val predecessorLevel = getLevel(predecessor)
-        val predecessorNode = graph.getNode(predecessor.trim())
-        val level = getLevel(str)
+            val offsetIdx = idx + 2
+            val nodeId = str.trim()
+            val node = graph.addNode(nodeId)
+            node.setAttribute("ui.label", nodeId)
+            val predecessor = lines[offsetIdx - 1]
+            val predecessorLevel = getLevel(predecessor)
+            val predecessorNode = graph.getNode(predecessor.trim())
+            val level = getLevel(str)
 
-        when {
-            level > predecessorLevel -> {
-                appendNode(nodeMap, predecessorNode, node)
-                graph.addEdge("${predecessorNode.id}-$nodeId", predecessorNode, node)
-            }
+            when {
+                level > predecessorLevel -> {
+                    appendNode(nodeMap, predecessorNode, node)
+                    graph.addEdge("${predecessorNode.id}-$nodeId", predecessorNode, node)
+                }
 
-            level == predecessorLevel -> {
-                val parentNode = findKeyContainingNode(nodeMap, predecessorNode)
-                appendNode(nodeMap, parentNode, node)
-                graph.addEdge("${parentNode.id}-${node.id}", parentNode, node)
-            }
+                level == predecessorLevel -> {
+                    val parentNode = findKeyContainingNode(nodeMap, predecessorNode)
+                    appendNode(nodeMap, parentNode, node)
+                    graph.addEdge("${parentNode.id}-${node.id}", parentNode, node)
+                }
 
-            else -> {
-                val siblingNode = findKeyContainingNode(nodeMap, predecessorNode)
-                val parentNode = findKeyContainingNode(nodeMap, siblingNode)
-                appendNode(nodeMap, parentNode, node)
-                graph.addEdge("${parentNode.id}-${node.id}", parentNode, node)
+                else -> {
+                    val siblingNode = findKeyContainingNode(nodeMap, predecessorNode)
+                    val parentNode = findKeyContainingNode(nodeMap, siblingNode)
+                    appendNode(nodeMap, parentNode, node)
+                    graph.addEdge("${parentNode.id}-${node.id}", parentNode, node)
+                }
             }
         }
     }

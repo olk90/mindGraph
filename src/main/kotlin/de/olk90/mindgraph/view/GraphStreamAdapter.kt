@@ -1,6 +1,7 @@
-package de.olk90.de.olk90.mindgraph.view
+package de.olk90.mindgraph.view
 
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
@@ -14,16 +15,16 @@ import org.graphstream.ui.view.Viewer.CloseFramePolicy
 import java.awt.Component
 
 @Composable
-fun GraphStreamPanel() {
-    val view = getView()
+fun GraphStreamPanel(content: String) {
+    val view = getView(content)
     SwingPanel(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxWidth(.7f).fillMaxHeight(),
         factory = { view as Component }
     )
 }
 
-private fun getView(): View {
-    val graph: Graph = renderMermaidMindMap()
+private fun getView(text: String): View {
+    val graph: Graph = renderMermaidMindMap(text)
 
     val viewer = SwingViewer(graph, Viewer.ThreadingModel.GRAPH_IN_GUI_THREAD)
     viewer.closeFramePolicy = CloseFramePolicy.EXIT
