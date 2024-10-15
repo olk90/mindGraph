@@ -3,6 +3,7 @@ package de.olk90.mindgraph.view
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
 import de.olk90.mindgraph.logic.renderMermaidMindMap
@@ -15,8 +16,8 @@ import org.graphstream.ui.view.Viewer.CloseFramePolicy
 import java.awt.Component
 
 @Composable
-fun GraphStreamPanel(content: String) {
-    val view = getView(content)
+fun GraphStreamPanel(content: MutableState<String>) {
+    val view = getView(content.value)
     SwingPanel(
         modifier = Modifier.fillMaxWidth(.7f).fillMaxHeight(),
         factory = { view as Component }
