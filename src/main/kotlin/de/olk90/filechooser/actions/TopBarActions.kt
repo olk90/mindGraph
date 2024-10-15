@@ -65,7 +65,7 @@ fun DeleteDirectoryButton(directory: MutableState<File>) {
 fun OpenHomeDirectoryButton(directory: MutableState<File>) {
     IconButton(
         onClick = {
-            directory.value = File(System.getProperty("user.home"))
+            directory.value = File(USER_HOME)
         }
     ) {
         Icon(
