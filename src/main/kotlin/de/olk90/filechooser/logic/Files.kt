@@ -1,5 +1,6 @@
 package de.olk90.filechooser.logic
 
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.material.icons.automirrored.filled.TextSnippet
@@ -22,13 +23,15 @@ fun createNewFile(
     fileName: MutableState<String>,
     mode: FileChooserMode,
     directory: MutableState<File>,
-    dialogOpen: MutableState<Boolean>
+    dialogOpen: MutableState<Boolean>,
+    action: (File) -> Unit
 ) {
     val path = Path(parent.path, fileName.value)
     val file = path.toFile()
     if (mode == FileChooserMode.FILE) {
         file.parentFile.mkdirs()
         file.createNewFile()
+        action(file)
     } else {
         file.mkdirs()
     }
@@ -64,3 +67,10 @@ fun getFileIcon(file: File): ImageVector {
         else -> Icons.AutoMirrored.Filled.InsertDriveFile
     }
 }
+
+fun File.isPngImage(): Boolean {
+    return extension.equals("png", ignoreCase = true) &&
+            inputStream().use { it.readNBytes(8).contentEquals(PNG_SIGNATURE) }
+}
+
+private val PNG_SIGNATURE = byteArrayOf(137.toByte(), 80, 78, 71, 13, 10, 26, 10)

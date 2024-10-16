@@ -29,7 +29,8 @@ fun FileChooser(
     isDialogOpen: MutableState<Boolean>,
     path: MutableState<String>,
     filters: List<FileExtensionFilter>,
-    mode: FileChooserMode
+    mode: FileChooserMode,
+    action: (File) -> Unit = {}
 ) {
 
     if (path.value.isEmpty()) {
@@ -48,7 +49,7 @@ fun FileChooser(
                 TopAppBar(
                     title = { Text(title) },
                     actions = {
-                        NewDirectoryButton(directory, mode)
+                        NewDirectoryButton(directory, mode, action)
                         DeleteDirectoryButton(directory)
                         OpenHomeDirectoryButton(directory)
                         ToggleHiddenFilesButton(showHidden)
@@ -100,7 +101,12 @@ fun FileChooser(
 }
 
 @Composable
-fun NewFileDialog(dialogOpen: MutableState<Boolean>, directory: MutableState<File>, mode: FileChooserMode) {
+fun NewFileDialog(
+    dialogOpen: MutableState<Boolean>,
+    directory: MutableState<File>,
+    mode: FileChooserMode,
+    action: (File) -> Unit
+) {
     val fileName = remember { mutableStateOf("") }
     val parent = directory.value
     val listFiles = parent.listFiles(FileFilter { it.name == fileName.value })
@@ -119,7 +125,7 @@ fun NewFileDialog(dialogOpen: MutableState<Boolean>, directory: MutableState<Fil
         confirmButton = {
             IconButton(
                 onClick = {
-                    createNewFile(parent, fileName, mode, directory, dialogOpen)
+                    createNewFile(parent, fileName, mode, directory, dialogOpen, action)
                 },
                 enabled = listFiles.isEmpty() && fileName.value.isNotBlank() && fileName.value.isNotEmpty()
             ) {

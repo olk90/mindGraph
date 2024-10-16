@@ -10,9 +10,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import de.olk90.mindgraph.view.GraphStreamPanel
+import org.graphstream.graph.Graph
 
 @Composable
-fun ContentArea(content: MutableState<String>) {
+fun ContentArea(content: MutableState<String>, graphState: MutableState<Graph?>, isInvisible: MutableState<Boolean>) {
     Row {
         // Left column (text input)
         TextField(
@@ -25,7 +26,7 @@ fun ContentArea(content: MutableState<String>) {
 
         // Right column (graph visualization)
         Box(modifier = Modifier.weight(.7f)) {
-            GraphStreamPanel(content)
+            GraphStreamPanel(content, graphState, isInvisible)
         }
     }
 }
