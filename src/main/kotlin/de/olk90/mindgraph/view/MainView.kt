@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.olk90.filechooser.view.FileChooser
 import de.olk90.filechooser.view.FileChooserMode
-import de.olk90.filechooser.view.defaultFilter
+import de.olk90.filechooser.view.mindMapFormats
 import de.olk90.mindgraph.de.olk90.mindgraph.view.ButtonBar
 import de.olk90.mindgraph.de.olk90.mindgraph.view.ContentArea
 
@@ -32,6 +32,6 @@ fun MainUI() {
     }
 
     if (isFileChooserOpen.value) {
-        FileChooser(isFileChooserOpen, filePath, listOf(defaultFilter), FileChooserMode.FILE)
+        FileChooser(isFileChooserOpen, filePath, mindMapFormats, FileChooserMode.FILE)
     }
 }

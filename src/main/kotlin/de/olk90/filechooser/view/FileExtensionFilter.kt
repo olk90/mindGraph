@@ -11,9 +11,10 @@ class FileExtensionFilter(
 
 val defaultFilter = FileExtensionFilter("*", "All files")
 
-val textFiles = listOf(
+val mindMapFormats = listOf(
     defaultFilter,
-    FileExtensionFilter("csv", "CSV file"),
-    FileExtensionFilter("log", "Log file"),
+    FileExtensionFilter("png", "PNG image"),
+    FileExtensionFilter("svg", "Scalable vector graphic"),
+    FileExtensionFilter("md", "Markdown file"),
     FileExtensionFilter("txt", "Text file")
 )
