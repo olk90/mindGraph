@@ -15,6 +15,7 @@ import de.olk90.filechooser.view.DeleteFileDialog
 import de.olk90.filechooser.view.FileChooserMode
 import de.olk90.filechooser.view.NewFileDialog
 import de.olk90.filechooser.view.USER_HOME
+import de.olk90.filechooser.view.mindMapFormats
 import java.io.File
 
 @Composable
@@ -35,7 +36,7 @@ fun NewDirectoryButton(directory: MutableState<File>, mode: FileChooserMode, act
     }
 
     if (newFileDialogOpen.value) {
-        NewFileDialog(newFileDialogOpen, directory, mode, action)
+        NewFileDialog(newFileDialogOpen, directory, mindMapFormats, mode, action)
     }
 }
 
