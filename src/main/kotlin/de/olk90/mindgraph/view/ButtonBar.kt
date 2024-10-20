@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.UploadFile
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -15,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import de.olk90.filechooser.actions.FileChooserButton
 
 @Composable
-fun ButtonBar(isFileChooserOpen: MutableState<Boolean>) {
+fun ButtonBar(isSaveDialogOpen: MutableState<Boolean>, isLoadDialogOpen: MutableState<Boolean>) {
     Column(
         modifier = Modifier
             .width(50.dp)
@@ -24,6 +25,7 @@ fun ButtonBar(isFileChooserOpen: MutableState<Boolean>) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        FileChooserButton(isFileChooserOpen, icon = Icons.Default.Save)
+        FileChooserButton(isLoadDialogOpen, icon = Icons.Default.UploadFile)
+        FileChooserButton(isSaveDialogOpen, icon = Icons.Default.Save)
     }
 }

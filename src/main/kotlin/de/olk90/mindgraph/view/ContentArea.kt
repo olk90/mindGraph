@@ -13,7 +13,12 @@ import de.olk90.mindgraph.view.GraphStreamPanel
 import org.graphstream.graph.Graph
 
 @Composable
-fun ContentArea(content: MutableState<String>, graphState: MutableState<Graph?>, isInvisible: MutableState<Boolean>) {
+fun ContentArea(
+    content: MutableState<String>,
+    graphState: MutableState<Graph?>,
+    isSaveDialogOpen: MutableState<Boolean>,
+    isLoadDialogOpen: MutableState<Boolean>
+) {
     Row {
         // Left column (text input)
         TextField(
@@ -26,7 +31,7 @@ fun ContentArea(content: MutableState<String>, graphState: MutableState<Graph?>,
 
         // Right column (graph visualization)
         Box(modifier = Modifier.weight(.7f)) {
-            GraphStreamPanel(content, graphState, isInvisible)
+            GraphStreamPanel(content, graphState, isSaveDialogOpen, isLoadDialogOpen)
         }
     }
 }

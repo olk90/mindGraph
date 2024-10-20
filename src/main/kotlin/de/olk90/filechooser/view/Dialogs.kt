@@ -93,7 +93,7 @@ fun FileChooser(
             },
             bottomBar = {
                 BottomAppBar {
-                    ButtonBar(isDialogOpen, directory, path, filters, selectedFilter, mode)
+                    ButtonBar(isDialogOpen, directory, path, filters, selectedFilter, mode, action)
                 }
             }
         )

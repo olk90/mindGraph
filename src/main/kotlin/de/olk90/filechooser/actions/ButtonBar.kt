@@ -15,11 +15,17 @@ import java.io.File
 
 
 @Composable
-fun SelectFileButton(isDialogOpen: MutableState<Boolean>, directory: MutableState<File>, path: MutableState<String>) {
+fun SelectFileButton(
+    isDialogOpen: MutableState<Boolean>,
+    directory: MutableState<File>,
+    path: MutableState<String>,
+    action: (File) -> Unit
+) {
     IconButton(
         onClick = {
             path.value = directory.value.path
             isDialogOpen.value = false
+            action(File(path.value))
         }) {
         Icon(
             Icons.Filled.Check,
@@ -105,7 +111,8 @@ fun ButtonBar(
     path: MutableState<String>,
     filters: List<FileExtensionFilter>,
     selectedFilter: MutableState<FileExtensionFilter>,
-    mode: FileChooserMode
+    mode: FileChooserMode,
+    action: (File) -> Unit
 ) {
     val expanded = remember { mutableStateOf(false) }
     Column(Modifier.fillMaxWidth(0.3f)) {
@@ -113,7 +120,7 @@ fun ButtonBar(
     }
     Column {
         Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.End) {
-            SelectFileButton(isDialogOpen, directory, path)
+            SelectFileButton(isDialogOpen, directory, path, action)
             CancelButton(isDialogOpen)
         }
     }

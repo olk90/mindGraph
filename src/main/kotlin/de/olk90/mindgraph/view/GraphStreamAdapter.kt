@@ -23,11 +23,12 @@ import java.awt.Component
 fun GraphStreamPanel(
     content: MutableState<String>,
     graphState: MutableState<Graph?>,
-    isInvisible: MutableState<Boolean>
+    isSaveDialogOpen: MutableState<Boolean>,
+    isLoadDialogOpen: MutableState<Boolean>
 ) {
     val view = getView(content.value, graphState)
 
-    if (!isInvisible.value) {
+    if (!(isSaveDialogOpen.value || isLoadDialogOpen.value)) {
         SwingPanel(
             modifier = Modifier
                 .fillMaxWidth(.7f)
