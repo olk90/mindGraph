@@ -17,27 +17,30 @@ fun renderMermaidMindMap(content: String): Graph {
     val graph: Graph = SingleGraph("MindMap")
 
     if (lines.size > 1) {
-        val rootId = lines[1].trim()
-        val root = graph.addNode(rootId)
-        root.setAttribute("ui.label", rootId)
+        val rootLabel = lines[1].trim()
+        val rootId = 0
+        val root = graph.addNode(rootId.toString())
+        root.setAttribute("ui.label", rootLabel)
 
         val nodeMap = mutableMapOf<Node, MutableList<Node>>()
 
         lines.drop(2).forEachIndexed { idx, str ->
 
             val offsetIdx = idx + 2
-            val nodeId = str.trim()
-            val node = graph.addNode(nodeId)
-            node.setAttribute("ui.label", nodeId)
-            val predecessor = lines[offsetIdx - 1]
-            val predecessorLevel = getLevel(predecessor)
-            val predecessorNode = graph.getNode(predecessor.trim())
+            val nodeLabel = str.trim()
+            val nodeId = graph.nodes().count()
+            val node = graph.addNode(nodeId.toString())
+            node.setAttribute("ui.label", nodeLabel)
+            val predecessorLine = lines[offsetIdx - 1]
+            val predecessorLevel = getLevel(predecessorLine)
+            val predecessorId = nodeId - 1
+            val predecessorNode = graph.getNode(predecessorId.toString())
             val level = getLevel(str)
 
             when {
                 level > predecessorLevel -> {
                     appendNode(nodeMap, predecessorNode, node)
-                    graph.addEdge("${predecessorNode.id}-$nodeId", predecessorNode, node)
+                    graph.addEdge("${predecessorNode.id}-$nodeLabel", predecessorNode, node)
                 }
 
                 level == predecessorLevel -> {
