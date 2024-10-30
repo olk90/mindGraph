@@ -23,15 +23,13 @@ fun createNewFile(
     fileName: MutableState<String>,
     mode: FileChooserMode,
     directory: MutableState<File>,
-    dialogOpen: MutableState<Boolean>,
-    action: (File) -> Unit
+    dialogOpen: MutableState<Boolean>
 ) {
     val path = Path(parent.path, fileName.value)
     val file = path.toFile()
     if (mode == FileChooserMode.FILE) {
         file.parentFile.mkdirs()
         file.createNewFile()
-        action(file)
     } else {
         file.mkdirs()
     }

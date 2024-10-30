@@ -20,7 +20,6 @@ fun MainUI() {
     var content = remember { mutableStateOf("mindmap") }
     val isSaveDialogOpen = remember { mutableStateOf(false) }
     val isLoadDialogOpen = remember { mutableStateOf(false) }
-    val filePath = remember { mutableStateOf(System.getProperty("user.home")) }
 
     val graphState: MutableState<Graph?> = remember { mutableStateOf(null) }
 
@@ -55,9 +54,9 @@ fun MainUI() {
     }
 
     if (isSaveDialogOpen.value) {
-        FileChooser(isSaveDialogOpen, filePath, saveFormats, FileChooserMode.FILE, saveAction)
+        FileChooser(isSaveDialogOpen, saveFormats, FileChooserMode.FILE, saveAction)
     }
     if (isLoadDialogOpen.value) {
-        FileChooser(isLoadDialogOpen, filePath, loadFormats, FileChooserMode.FILE, loadAction)
+        FileChooser(isLoadDialogOpen, loadFormats, FileChooserMode.FILE, loadAction)
     }
 }

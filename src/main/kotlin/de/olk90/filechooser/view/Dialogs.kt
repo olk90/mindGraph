@@ -27,19 +27,19 @@ val USER_HOME: String = System.getProperty("user.home")
 @Composable
 fun FileChooser(
     isDialogOpen: MutableState<Boolean>,
-    path: MutableState<String>,
     filters: List<FileExtensionFilter>,
     mode: FileChooserMode,
-    action: (File) -> Unit = {}
+    selectAction: (File) -> Unit
 ) {
 
-    if (path.value.isEmpty()) {
-        path.value = USER_HOME
-    }
-
     val showHidden = remember { mutableStateOf(false) }
-    val directory = remember { mutableStateOf(File(path.value)) }
+    val directory = remember { mutableStateOf(File(USER_HOME)) }
     val selectedFilter = remember { mutableStateOf(filters[0]) }
+
+    val internalSelectAction = { file: File ->
+        selectAction(file)
+        directory.value = file
+    }
 
     val title = if (mode == FileChooserMode.FILE) "Select File" else "Select Directory"
 
@@ -49,7 +49,7 @@ fun FileChooser(
                 TopAppBar(
                     title = { Text(title) },
                     actions = {
-                        NewDirectoryButton(directory, mode, action)
+                        NewDirectoryButton(directory, mode)
                         DeleteDirectoryButton(directory)
                         OpenHomeDirectoryButton(directory)
                         ToggleHiddenFilesButton(showHidden)
@@ -86,14 +86,14 @@ fun FileChooser(
                     }
                     Row {
                         Box(Modifier.fillMaxHeight(0.9f)) {
-                            FileList(directory, showHidden, selectedFilter, mode)
+                            FileList(directory, showHidden, selectedFilter, mode, internalSelectAction)
                         }
                     }
                 }
             },
             bottomBar = {
                 BottomAppBar {
-                    ButtonBar(isDialogOpen, directory, path, filters, selectedFilter, mode, action)
+                    ButtonBar(isDialogOpen, directory, filters, selectedFilter, mode, internalSelectAction)
                 }
             }
         )
@@ -105,9 +105,9 @@ fun NewFileDialog(
     dialogOpen: MutableState<Boolean>,
     directory: MutableState<File>,
     filters: List<FileExtensionFilter>,
-    mode: FileChooserMode,
-    action: (File) -> Unit
+    mode: FileChooserMode
 ) {
+
     val fileName = remember { mutableStateOf("") }
     val parent = directory.value
     val listFiles = parent.listFiles(FileFilter { it.name == fileName.value })
@@ -147,7 +147,7 @@ fun NewFileDialog(
         confirmButton = {
             IconButton(
                 onClick = {
-                    createNewFile(parent, fileName, mode, directory, dialogOpen, action)
+                    createNewFile(parent, fileName, mode, directory, dialogOpen)
                 },
                 enabled = listFiles.isEmpty() && fileName.value.isNotBlank() && fileName.value.isNotEmpty()
             ) {

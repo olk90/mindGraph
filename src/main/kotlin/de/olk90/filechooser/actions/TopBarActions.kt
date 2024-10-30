@@ -19,7 +19,7 @@ import de.olk90.filechooser.view.saveFormats
 import java.io.File
 
 @Composable
-fun NewDirectoryButton(directory: MutableState<File>, mode: FileChooserMode, action: (File) -> Unit) {
+fun NewDirectoryButton(directory: MutableState<File>, mode: FileChooserMode) {
 
     val newFileDialogOpen = remember { mutableStateOf(false) }
 
@@ -36,7 +36,7 @@ fun NewDirectoryButton(directory: MutableState<File>, mode: FileChooserMode, act
     }
 
     if (newFileDialogOpen.value) {
-        NewFileDialog(newFileDialogOpen, directory, saveFormats, mode, action)
+        NewFileDialog(newFileDialogOpen, directory, saveFormats, mode)
     }
 }
 
