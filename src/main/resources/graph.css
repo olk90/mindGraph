@@ -1,16 +1,32 @@
-graph {
-    fill-color: white;
+node {
+    size-mode: fit;
+    text-size: 12;
+    text-color: white;
+    text-padding: 5px, 4px;
+    text-offset: 0px, 2px;
+    fill-mode: dyn-plain;
 }
 
-node {
-    shape: freeplane;
-    fill-color: white;
-    stroke-mode: plain;
-    size-mode: fit;
+node.root {
+    text-background-mode: rounded-box;
+    text-background-color: #FF6347;
+    text-size: 14;
+    text-style: bold;
+}
+
+node.middle {
+    text-background-mode: rounded-box;
+    text-background-color: #4682B4;
+    text-style: bold;
+}
+
+node.leaf {
+    text-background-mode: rounded-box;
+    text-background-color: #32CD32;
 }
 
 edge {
-    shape: freeplane;
-    size: 2px;
-    fill-color: #444;
+    shape: blob;
+    fill-color: #A9A9A9;
+    arrow-size: 8px, 6px;
 }

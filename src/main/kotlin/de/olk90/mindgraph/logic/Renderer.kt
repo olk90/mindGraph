@@ -4,6 +4,8 @@ import org.graphstream.graph.Graph
 import org.graphstream.graph.Node
 import org.graphstream.graph.implementations.SingleGraph
 
+const val ROOT_ID = "0"
+
 fun renderMermaidMindMap(content: String): Graph {
     System.setProperty("org.graphstream.ui", "swing")
 
@@ -18,8 +20,8 @@ fun renderMermaidMindMap(content: String): Graph {
 
     if (lines.size > 1) {
         val rootLabel = lines[1].trim()
-        val rootId = 0
-        val root = graph.addNode(rootId.toString())
+        val root = graph.addNode(ROOT_ID)
+        root.setAttribute("ui.class", "root")
         root.setAttribute("ui.label", rootLabel)
 
         val nodeMap = mutableMapOf<Node, MutableList<Node>>()
@@ -29,8 +31,11 @@ fun renderMermaidMindMap(content: String): Graph {
             val offsetIdx = idx + 2
             val nodeLabel = str.trim()
             val nodeId = graph.nodes().count()
+
             val node = graph.addNode(nodeId.toString())
             node.setAttribute("ui.label", nodeLabel)
+            node.setAttribute("ui.class", "leaf")
+
             val predecessorLine = lines[offsetIdx - 1]
             val predecessorLevel = getLevel(predecessorLine)
             val predecessorId = nodeId - 1
@@ -40,6 +45,7 @@ fun renderMermaidMindMap(content: String): Graph {
             when {
                 level > predecessorLevel -> {
                     appendNode(nodeMap, predecessorNode, node)
+                    setUiClass(predecessorNode, "middle")
                     graph.addEdge("${predecessorNode.id}-$nodeLabel", predecessorNode, node)
                 }
 
@@ -52,6 +58,7 @@ fun renderMermaidMindMap(content: String): Graph {
                 else -> {
                     val siblingNode = findKeyContainingNode(nodeMap, predecessorNode)
                     val parentNode = findKeyContainingNode(nodeMap, siblingNode)
+                    setUiClass(parentNode, "middle")
                     appendNode(nodeMap, parentNode, node)
                     graph.addEdge("${parentNode.id}-${node.id}", parentNode, node)
                 }
@@ -88,4 +95,10 @@ fun findKeyContainingNode(nodeMap: MutableMap<Node, MutableList<Node>>, targetNo
         }
     }
     return targetNode
+}
+
+fun setUiClass(node: Node, uiClass: String) {
+    if (node.id != ROOT_ID) {
+        node.setAttribute("ui.class", uiClass)
+    }
 }
