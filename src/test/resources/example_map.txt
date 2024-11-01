@@ -1,0 +1,16 @@
+mindmap
+mindGraph
+	simple desgin
+		root node
+		middle node
+		leaf node
+	Mermaid inspired mindmaps
+		use Mermaid syntax to create your mind map
+		formatting features are not supported!
+	insides	
+		Compose for Desktop as UI framework
+		GraphStream 2.0 for mindmap rendering
+		various export formats
+			text formats
+			PNG
+			SVG
