@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import de.olk90.filechooser.logic.isPngImage
 import de.olk90.filechooser.view.FileChooser
@@ -17,7 +18,7 @@ import java.io.File
 
 @Composable
 fun MainUI() {
-    var content = remember { mutableStateOf("mindmap") }
+    var content = remember { mutableStateOf(TextFieldValue("mindmap")) }
     val isSaveDialogOpen = remember { mutableStateOf(false) }
     val isLoadDialogOpen = remember { mutableStateOf(false) }
 
@@ -28,14 +29,14 @@ fun MainUI() {
             if(file.isPngImage()) {
                 // TODO use PNG file sink
             } else {
-                file.writeText(content.value)
+                file.writeText(content.value.text)
             }
         }
     }
 
     val loadAction = { file: File ->
         if (file.isFile) {
-            content.value = file.readText()
+            content.value = TextFieldValue(file.readText())
         }
     }
 
