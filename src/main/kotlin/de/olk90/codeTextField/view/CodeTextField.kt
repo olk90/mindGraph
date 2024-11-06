@@ -26,7 +26,7 @@ fun CodeTextField(
 
     var lineTops by remember { mutableStateOf(emptyArray<Float>()) }
 
-    Row {
+    Row(modifier = modifier) {
         if (lineTops.isNotEmpty()) {
             Box(modifier = Modifier.padding(horizontal = 4.dp)) {
                 lineTops.forEachIndexed { index, top ->
@@ -43,7 +43,6 @@ fun CodeTextField(
             onTextLayout = { result ->
                 lineTops = Array(result.lineCount) { result.getLineTop(it) }
             },
-            modifier = modifier,
             textStyle = MaterialTheme.typography.body1.copy(fontFamily = FontFamily.Monospace),
             maxLines = Int.MAX_VALUE
         )
