@@ -15,6 +15,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.vector.ImageVector
 import de.olk90.filechooser.view.FileChooserMode
 import java.io.File
+import java.io.FileOutputStream
 import java.net.URLConnection
 import kotlin.io.path.Path
 
@@ -30,6 +31,7 @@ fun createNewFile(
     if (mode == FileChooserMode.FILE) {
         file.parentFile.mkdirs()
         file.createNewFile()
+        file.createNewFileByExtension()
     } else {
         file.mkdirs()
     }
@@ -72,3 +74,18 @@ fun File.isPngImage(): Boolean {
 }
 
 private val PNG_SIGNATURE = byteArrayOf(137.toByte(), 80, 78, 71, 13, 10, 26, 10)
+
+fun createValidPngFile(fileName: String) {
+
+    val file = File(fileName)
+    FileOutputStream(file).use { fos ->
+        fos.write(PNG_SIGNATURE)
+//        fos.write(ByteArray(100))
+    }
+}
+
+fun File.createNewFileByExtension() {
+    if (extension.lowercase() == "png") {
+        createValidPngFile(this.absolutePath)
+    }
+}

@@ -1,8 +1,15 @@
 package de.olk90.mindgraph.view
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -14,6 +21,10 @@ import de.olk90.filechooser.view.saveFormats
 import de.olk90.mindgraph.de.olk90.mindgraph.view.ButtonBar
 import de.olk90.mindgraph.de.olk90.mindgraph.view.ContentArea
 import org.graphstream.graph.Graph
+import org.graphstream.stream.file.FileSinkImages.LayoutPolicy
+import org.graphstream.stream.file.FileSinkImages.OutputType
+import org.graphstream.stream.file.images.Resolutions
+import org.graphstream.ui.swing.util.SwingFileSinkImages
 import java.io.File
 
 @Composable
@@ -26,8 +37,14 @@ fun MainUI() {
 
     val saveAction = { file: File ->
         if (file.isFile) {
-            if(file.isPngImage()) {
-                // TODO use PNG file sink
+            if (file.isPngImage()) {
+
+                if (graphState.value != null) {
+                    val fsi = SwingFileSinkImages(OutputType.png, Resolutions.HD1080)
+                    fsi.setLayoutPolicy(LayoutPolicy.COMPUTED_FULLY_AT_NEW_IMAGE)
+                    fsi.writeAll(graphState.value, file.absolutePath)
+                }
+
             } else {
                 file.writeText(content.value.text)
             }
