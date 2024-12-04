@@ -4,7 +4,6 @@ import org.graphstream.graph.Graph
 import org.graphstream.graph.Node
 import org.graphstream.graph.implementations.SingleGraph
 
-const val ROOT_ID = "0"
 
 fun renderMermaidMindMap(content: String): Graph {
     System.setProperty("org.graphstream.ui", "swing")
@@ -21,8 +20,8 @@ fun renderMermaidMindMap(content: String): Graph {
     if (lines.size > 1) {
         val rootLabel = lines[1].trim()
         val root = graph.addNode(ROOT_ID)
-        root.setAttribute("ui.class", "root")
-        root.setAttribute("ui.label", rootLabel)
+        root.setAttribute(UI_CLASS, "root")
+        root.setAttribute(UI_LABEL, rootLabel)
 
         val nodeMap = mutableMapOf<Node, MutableList<Node>>()
 
@@ -33,8 +32,8 @@ fun renderMermaidMindMap(content: String): Graph {
             val nodeId = graph.nodes().count()
 
             val node = graph.addNode(nodeId.toString())
-            node.setAttribute("ui.label", nodeLabel)
-            node.setAttribute("ui.class", "leaf")
+            node.setAttribute(UI_LABEL, nodeLabel)
+            node.setAttribute(UI_CLASS, "leaf")
 
             val predecessorLine = lines[offsetIdx - 1]
             val predecessorLevel = getLevel(predecessorLine)
@@ -72,7 +71,7 @@ fun renderMermaidMindMap(content: String): Graph {
             .getResourceAsStream("graph.css")!!
             .bufferedReader()
             .useLines { it.joinToString("\n") }
-    graph.setAttribute("ui.stylesheet", css)
+    graph.setAttribute(UI_STYLESHEET, css)
     return graph
 }
 
@@ -99,6 +98,6 @@ fun findKeyContainingNode(nodeMap: MutableMap<Node, MutableList<Node>>, targetNo
 
 fun setUiClass(node: Node, uiClass: String) {
     if (node.id != ROOT_ID) {
-        node.setAttribute("ui.class", uiClass)
+        node.setAttribute(UI_CLASS, uiClass)
     }
 }
