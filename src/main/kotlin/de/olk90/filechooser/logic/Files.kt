@@ -68,24 +68,27 @@ fun getFileIcon(file: File): ImageVector {
     }
 }
 
-fun File.isPngImage(): Boolean {
-    return extension.equals("png", ignoreCase = true) &&
-            inputStream().use { it.readNBytes(8).contentEquals(PNG_SIGNATURE) }
-}
-
-private val PNG_SIGNATURE = byteArrayOf(137.toByte(), 80, 78, 71, 13, 10, 26, 10)
-
 fun createValidPngFile(fileName: String) {
-
     val file = File(fileName)
     FileOutputStream(file).use { fos ->
         fos.write(PNG_SIGNATURE)
-//        fos.write(ByteArray(100))
     }
 }
 
+fun createValidSvgFile(fileName: String) {
+    val file = File(fileName)
+    file.writeText(MINIMAL_SVG_CONTENT)
+}
+
+fun createValidGraphMLFile(fileName: String) {
+    val file = File(fileName)
+    file.writeText(MINIMAL_GRAPHML_CONTENT)
+}
+
 fun File.createNewFileByExtension() {
-    if (extension.lowercase() == "png") {
-        createValidPngFile(this.absolutePath)
+    when(extension.lowercase()) {
+        "png" -> createValidPngFile(this.absolutePath)
+        "svg" -> createValidSvgFile(this.absolutePath)
+        "graphml" -> createValidGraphMLFile(this.absolutePath)
     }
 }

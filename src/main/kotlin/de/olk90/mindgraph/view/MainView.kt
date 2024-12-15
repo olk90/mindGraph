@@ -13,18 +13,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import de.olk90.filechooser.logic.isPngImage
 import de.olk90.filechooser.view.FileChooser
 import de.olk90.filechooser.view.FileChooserMode
 import de.olk90.filechooser.view.loadFormats
 import de.olk90.filechooser.view.saveFormats
 import de.olk90.mindgraph.de.olk90.mindgraph.view.ButtonBar
 import de.olk90.mindgraph.de.olk90.mindgraph.view.ContentArea
+import de.olk90.mindgraph.logic.saveFile
 import org.graphstream.graph.Graph
-import org.graphstream.stream.file.FileSinkImages.LayoutPolicy
-import org.graphstream.stream.file.FileSinkImages.OutputType
-import org.graphstream.stream.file.images.Resolutions
-import org.graphstream.ui.swing.util.SwingFileSinkImages
 import java.io.File
 
 @Composable
@@ -36,18 +32,9 @@ fun MainUI() {
     val graphState: MutableState<Graph?> = remember { mutableStateOf(null) }
 
     val saveAction = { file: File ->
-        if (file.isFile) {
-            if (file.isPngImage()) {
-
-                if (graphState.value != null) {
-                    val fsi = SwingFileSinkImages(OutputType.png, Resolutions.HD1080)
-                    fsi.setLayoutPolicy(LayoutPolicy.COMPUTED_FULLY_AT_NEW_IMAGE)
-                    fsi.writeAll(graphState.value, file.absolutePath)
-                }
-
-            } else {
-                file.writeText(content.value.text)
-            }
+        val graph = graphState.value
+        if (file.isFile && graph != null) {
+            saveFile(file,  graph, content)
         }
     }
 

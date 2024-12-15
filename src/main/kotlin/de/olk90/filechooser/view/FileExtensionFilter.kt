@@ -15,6 +15,7 @@ val saveFormats = listOf(
     defaultFilter,
     FileExtensionFilter("png", "PNG image"),
     FileExtensionFilter("svg", "Scalable vector graphic"),
+    FileExtensionFilter("graphml", "GraphML"),
     FileExtensionFilter("md", "Markdown file"),
     FileExtensionFilter("txt", "Text file")
 )
