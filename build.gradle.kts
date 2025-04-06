@@ -1,8 +1,7 @@
 plugins {
     kotlin("jvm") version "2.0.20"
-
-    kotlin("plugin.compose")
-    id("org.jetbrains.compose")
+    id("org.jetbrains.compose") version "1.7.3"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20"
 }
 
 group = "de.olk90"
@@ -20,18 +19,18 @@ java {
 }
 
 dependencies {
-
-    // https://mvnrepository.com/artifact/org.graphstream/gs-core
+    // GraphStream libraries for graph rendering
     implementation("org.graphstream:gs-core:2.0")
-
-    // https://mvnrepository.com/artifact/org.graphstream/gs-ui-swing
     implementation("org.graphstream:gs-ui-swing:2.0")
 
+    // JetBrains Compose for Desktop
     implementation(compose.desktop.currentOs)
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    // Material Icons for Compose
+    implementation("androidx.compose.material:material-icons-extended:1.6.0")
 
-    implementation("androidx.compose.material:material-icons-extended:1.7.3")
+    // Kotlin testing with JUnit 5
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 }
 
 tasks.test {
